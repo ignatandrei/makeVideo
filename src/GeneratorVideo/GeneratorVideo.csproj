@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--<TargetFramework>net8.0-windows</TargetFramework>-->
+     <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
+	  <UseWPF>true</UseWPF>
+	  <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GV.Steps\GV.Steps.csproj" />
+  </ItemGroup>
+
+
+  <!--<ItemGroup>
+    <Reference Include="Microsoft.Speech">
+      <HintPath>C:\Program Files\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
+    </Reference>
+  </ItemGroup>-->
+
+</Project>
