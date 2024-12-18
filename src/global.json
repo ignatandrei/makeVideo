@@ -1,0 +1,8 @@
+{
+	"scriptShell":"pwsh",
+  "scripts": {
+    "build": "dotnet build --configuration Release",    
+    "ci": "dotnet r build && dotnet r test"
+
+  }
+}
