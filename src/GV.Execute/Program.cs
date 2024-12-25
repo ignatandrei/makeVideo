@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Protocol;
+
 Console.WriteLine("Hello, World!");
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,20 @@ var vj1 = await video.SendVideoJson(vj);
 Console.WriteLine(vj.scriptName);
 var data= await video.GetVideo(vj.scriptName);
 
+HubConnection _connection = new HubConnectionBuilder()
+    .WithUrl(url+ "/stepsHub")
+    .Build();
+
+_connection.On<PlayStep>(nameof(IStepsHub.SendNextStep), (step) =>
+{
+    Console.WriteLine("!!"+step);
+});
+
+await _connection.StartAsync();
+
+var h = TypedSignalR.Client.HubConnectionExtensions.CreateHubProxy<IStepsHub>(_connection);
+await h.Start(vj.scriptName);
+
 app.MapDefaultEndpoints();
 
 
@@ -48,4 +65,4 @@ app.MapDefaultEndpoints();
 
 app.UseHttpsRedirection();
 
-//app.Run();
+app.Run();
