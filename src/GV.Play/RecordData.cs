@@ -15,6 +15,12 @@ public class PlayOperations
         return id;
 
     }
+
+    public string[] GetAll()
+    {
+        return data.Values.Select(it=>it.scriptName).ToArray();
+    }
+
     public async Task<VideoJson?> GetRegistered(string id)
     {
         await Task.Yield();

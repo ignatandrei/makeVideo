@@ -24,9 +24,11 @@ internal record StepBrowser(string text, string value) : newStep(text,value)
         }
             
     }
-    public override async Task<bool> InitDefaults()
+    public override bool InitDefaults()
     {
-        string Title = await GetPageTitle();
+        string Title="repair this";
+        //TODO: repair this
+        //string Title = await GetPageTitle();
         this.SpeakTest ??= "Now I will show you "+ Title;
         return true;
     }

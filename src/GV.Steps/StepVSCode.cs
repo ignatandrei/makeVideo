@@ -37,10 +37,11 @@ internal record StepVSCode(string text, string value) : newStep(text, value)
 
     }
 
-    public override async Task<bool> InitDefaults()
+    public override bool InitDefaults()
     {
         //C:\\Users\\ignat\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe
-        location = (await Where("code"))??"";
+        //location = (await Where("code"))??"";
+        location = "REPAIR LOCATION";
         return !string.IsNullOrWhiteSpace(location);
     }
     public static async Task<string?> Where(string exe)

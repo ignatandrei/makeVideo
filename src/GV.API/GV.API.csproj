@@ -23,5 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Generator.ServiceDefaults\Generator.ServiceDefaults.csproj" />
     <ProjectReference Include="..\GV.Play\GV.Play.csproj" />
+    <ProjectReference Include="..\GV.Steps\GV.Steps.csproj" />
   </ItemGroup>
 </Project>

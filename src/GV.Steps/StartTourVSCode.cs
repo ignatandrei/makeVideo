@@ -1,10 +1,10 @@
 ﻿namespace GV.Steps;
 internal record StartTourVSCode(string text, string value) : newStep(text, value)
 {
-    public override Task<bool> InitDefaults()
+    public override bool InitDefaults()
     {
         this.SpeakTest ??= "I am now going to show you the more relevant codes ";
-        return Task.FromResult(true);
+        return true;
     }
     public override async Task Execute()
     {

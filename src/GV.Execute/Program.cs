@@ -32,7 +32,7 @@ ArgumentNullException.ThrowIfNull(vj);
 var vj1 = await video.SendVideoJson(vj);
 Console.WriteLine(vj.scriptName);
 var data= await video.GetVideo(vj.scriptName);
-Console.WriteLine(data.scriptName);
+
 app.MapDefaultEndpoints();
 
 

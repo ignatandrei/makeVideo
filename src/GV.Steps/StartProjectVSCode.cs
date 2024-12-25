@@ -5,10 +5,10 @@ internal record StartProjectVSCode(string text, string value) : newStep(text, va
     public override void Dispose()
     {
     }
-    public override Task<bool> InitDefaults()
+    public override bool InitDefaults()
     {
         SpeakTest ??= "I am launching now the project " + value;
-        return Task.FromResult( true);
+        return true;
     }
     public override async Task Execute()
     {

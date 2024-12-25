@@ -19,7 +19,7 @@ public abstract record newStep(string typeScript, string arg):IParsable<newStep>
     //{
     //    await Task.WhenAll(Talk(true), Execute());
     //}
-    public abstract Task<bool> InitDefaults();
+    public abstract bool InitDefaults();
     public string Description => this.GetType().Name + " " + typeScript + " " + arg;
 
     public long DurationSeconds { get; set; }
