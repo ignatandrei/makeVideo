@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GV.API\GV.API.csproj" />
+    <ProjectReference Include="..\GV.Execute\GV.Execute.csproj" />
   </ItemGroup>
 
 </Project>

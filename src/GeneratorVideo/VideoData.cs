@@ -13,7 +13,7 @@ internal class VideoData:IDisposable
     }
     public async Task<bool> Analyze()
     {
-        vdata = await VideoJson.Deserialize(fileName);
+        vdata = await VideoJson.DeserializeFromFile(fileName);
         return vdata != null;
         //var steps = JsonSerializer.Deserialize<Dictionary<string, string>>
         //    (data,opt);
