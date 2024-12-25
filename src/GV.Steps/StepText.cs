@@ -10,7 +10,7 @@ internal record StepText(string text, string value) : newStep(text, value)
     {
     }
     
-    internal override async Task Execute()
+    public override async Task Execute()
     {
         await Task.Delay(1000);
         Console.WriteLine(value);

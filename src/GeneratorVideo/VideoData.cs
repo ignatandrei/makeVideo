@@ -1,5 +1,4 @@
-﻿using WindowsInput;
-
+﻿
 namespace GeneratorVideo;
 [System.Runtime.Versioning.SupportedOSPlatform("windows")]
 
@@ -42,7 +41,8 @@ internal class VideoData:IDisposable
                 var step = execSteps[iStep];
                 Console.WriteLine($"executing {step.GetType().Name} {step.Number} /{nr}");// + "=>" + step.value);
                 var now = DateTime.Now;                                                                        // 
-                await step.ExecuteAndSpeak();
+                //await step.ExecuteAndSpeak();
+                await step.Execute();
                 var DurationSeconds = DateTime.Now.Subtract(now).TotalSeconds;
                 step.DurationSeconds= (long)DurationSeconds;
                 Console.WriteLine("Duration:" + step.DurationSeconds);

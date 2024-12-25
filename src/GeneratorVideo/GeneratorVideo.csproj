@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <!--<TargetFramework>net8.0-windows</TargetFramework>-->
-     <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
+     <TargetFramework>net9.0-windows</TargetFramework>
 	  <UseWPF>true</UseWPF>
 	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -12,6 +12,10 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Voices.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GV.General\GV.General.csproj" />
     <ProjectReference Include="..\GV.Steps\GV.Steps.csproj" />
   </ItemGroup>
 

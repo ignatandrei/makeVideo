@@ -49,7 +49,7 @@ internal record StepBrowser(string text, string value) : newStep(text,value)
 
         return content;
     }
-    internal override async Task Execute()
+    public override async Task Execute()
     {
         await Task.Delay(1000);
         string program = "explorer.exe", args = value;

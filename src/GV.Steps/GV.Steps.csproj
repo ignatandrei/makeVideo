@@ -6,22 +6,25 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
-	<PropertyGroup >
+	<PropertyGroup>
 	  <NoWarn>1701;1702;CA1416;NU1701</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-		<PackageReference Include="System.Speech" Version="7.0.0" />
+		<!--<PackageReference Include="System.Speech" Version="7.0.0" />-->
 	</ItemGroup>
 
-	<ItemGroup>
+	<!--<ItemGroup>
 		<Reference Include="Microsoft.Speech">
 			<HintPath>C:\Program Files (x86)\Microsoft SDKs\Speech\v11.0\Assembly\Microsoft.Speech.dll</HintPath>
 		</Reference>
-	</ItemGroup>
+	</ItemGroup>-->
 	<ItemGroup>
 		<PackageReference Include="InputSimulator" Version="1.0.4" />
 		<PackageReference Include="InputSimulatorCore" Version="1.0.5" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\GV.General\GV.General.csproj" />
 	</ItemGroup>
 
 </Project>

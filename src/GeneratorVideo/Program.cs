@@ -13,7 +13,7 @@
 //}
 //await Voices.DisplayVoices();
 #pragma warning disable CA1416 // Validate platform compatibility
-Console.WriteLine(Windows.Media.SpeechSynthesis.SpeechSynthesizer.DefaultVoice.DisplayName);
+//Console.WriteLine(Windows.Media.SpeechSynthesis.SpeechSynthesizer.DefaultVoice.DisplayName);
 #pragma warning restore CA1416 // Validate platform compatibility
 //var x=1;
 //if(x==1)

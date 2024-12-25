@@ -37,7 +37,7 @@ internal record StepExecuteProgram(string text, string value) : newStep(text, va
         this.SpeakTest ??= "I am starting " + nameProgram;
         return Task.FromResult(true);
     }
-    internal override Task Execute()
+    public override Task Execute()
     {
         Console.WriteLine($"start program {program} with args {args}");
         process=Process.Start(program, args);
