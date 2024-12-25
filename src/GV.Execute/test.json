@@ -108,8 +108,7 @@
     },
     {
       "typeStep": "browser",
-      "arg": "https://ignatandrei.github.io/RSCG_Examples/v2/docs/Datacute.EmbeddedResourcePropertyGenerator#download-example-net--c-",
-      "SpeakTest=\" \""
+      "arg": "https://ignatandrei.github.io/RSCG_Examples/v2/docs/Datacute.EmbeddedResourcePropertyGenerator#download-example-net--c-"
     },
     {
       "typeStep": "waitseconds",

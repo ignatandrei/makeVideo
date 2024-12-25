@@ -8,8 +8,8 @@ internal record StartTourVSCode(string text, string value) : newStep(text, value
     }
     public override async Task Execute()
     {
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(base.OriginalFileNameFromWhereTheStepIsComing);
-        var folderWithTours = Path.Combine(Path.GetDirectoryName(base.OriginalFileNameFromWhereTheStepIsComing)!, value);
+        //ArgumentNullException.ThrowIfNullOrWhiteSpace(base.OriginalFileNameFromWhereTheStepIsComing);
+        var folderWithTours = value;//  Path.Combine(Path.GetDirectoryName(base.OriginalFileNameFromWhereTheStepIsComing)!, value);
         var tourFiles = Directory.GetFiles(folderWithTours, "*.tour");
         if (tourFiles.Length != 1)
         {

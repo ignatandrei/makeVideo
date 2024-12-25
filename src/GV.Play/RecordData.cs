@@ -7,9 +7,8 @@ public class PlayOperations
 {
     private static ConcurrentDictionary<Guid, VideoJson> data = [];
 
-    public async Task<Guid?> Add(string json)
+    public async Task<Guid?> Add(VideoJson vj)
     {
-        var vj =await VideoJson.DeserializeFromFile(json);
         if (vj == null) return null;
         var id = Guid.NewGuid();
         data[id] = vj;

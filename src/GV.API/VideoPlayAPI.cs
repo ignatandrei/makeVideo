@@ -10,15 +10,14 @@ public class VideoPlayAPI : IApi
         var grp = builder.MapGroup("/api/VideoPlay");
         
         grp.MapPost("/Register"
-            ,async Task<Results<Ok<Guid>,InternalServerError<string>>> (
-                     [FromBody] string  context,
+            ,async Task<Results<Ok<Guid>, BadRequest<string>>> (
+                     VideoJson  context,
                      [FromServices] PlayOperations service
                      )
                      => {
-                         ArgumentNullException.ThrowIfNullOrWhiteSpace(context);
+                         if (context == null) return TypedResults.BadRequest("Invalid JSON");
+                         ArgumentNullException.ThrowIfNull(context);
                          var g = await service.Add(context);
-                         if(g == null) return TypedResults.InternalServerError("Invalid JSON");
-                         if(context == null) return TypedResults.InternalServerError("Invalid JSON");
                          return TypedResults.Ok(g.Value);
                      });
         grp.MapGet("/Find/{id}", async Task<Results<Ok<VideoJson>, InternalServerError<string>>> (
