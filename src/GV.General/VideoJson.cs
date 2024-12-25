@@ -7,12 +7,12 @@ public class VideoJson
     public Step[] steps { get; set; } = [];
 
     public newStep[] realSteps=[];
-    public async static Task<VideoJson?> DeserializeFromFile(string fileName)
+    public async static Task<VideoJson?> DeserializeFromFile(string fileName, Func<string, IFormatProvider?, newStep> parser)
     {
         var json = await File.ReadAllTextAsync(fileName);
-        return await DeserializeFromString(json);
+        return await DeserializeFromString(json,parser);
     }
-    public async static Task<VideoJson?> DeserializeFromString(string json)
+    public async static Task<VideoJson?> DeserializeFromString(string json,Func<string , IFormatProvider? ,newStep> parser)
     {
         
         var opt = new JsonSerializerOptions(JsonSerializerOptions.Default);
@@ -24,7 +24,7 @@ public class VideoJson
         for(var i = 0; i < data.steps.Length; i++)
         {
             var step = data.steps[i];
-            var newStep1= newStep.Parse("step_"+ i + "_"+step.typeStep + esc + step.arg, null);
+            var newStep1= parser("step_"+ i + "_"+step.typeStep + esc + step.arg, null);
             if (newStep1 == null) continue;
             newStep1.DurationSeconds = step.DurationSeconds;
             newStep1.SpeakTest ??= step.SpeakTest;

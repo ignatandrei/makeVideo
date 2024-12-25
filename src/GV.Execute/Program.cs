@@ -1,5 +1,4 @@
-﻿using GV.General;
-
+﻿
 Console.WriteLine("Hello, World!");
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +27,7 @@ var app = builder.Build();
 
 //var file = await File.ReadAllTextAsync("test.json");
 var video=  app.Services.GetRequiredService<IVideoApi>();
-var vj=await VideoJson.DeserializeFromFile("test.json");
+var vj=await VideoJson.DeserializeFromFile("test.json",StepParser.Parse);
 ArgumentNullException.ThrowIfNull(vj);
 var vj1 = await video.SendVideoJson(vj);
 Console.WriteLine(vj.scriptName);

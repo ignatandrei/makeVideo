@@ -2,6 +2,13 @@
 namespace GV.Steps;
 public class StepParser
 {
+    public static newStep Parse(string s, IFormatProvider? provider)
+    {
+        if(TryParse(s, provider, out var value))
+            return value;
+
+        throw new ArgumentException("cannot parse to step " + s);
+    }
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out newStep result)
     {
         ArgumentNullException.ThrowIfNull(s);
