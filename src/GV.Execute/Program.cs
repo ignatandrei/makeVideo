@@ -44,6 +44,10 @@ _connection.On<PlayStep>(nameof(IStepsHub.SendNextStep), (step) =>
 {
     Console.WriteLine("!!"+step);
 });
+_connection.On<string>(nameof(IStepsHub.Start), (scriptName) =>
+{
+    Console.WriteLine("!!" + scriptName);
+});
 
 await _connection.StartAsync();
 

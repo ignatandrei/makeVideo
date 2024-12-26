@@ -2,7 +2,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var prjAPI = builder
         .AddProject<Projects.GV_API>("gv-api")
-        //.WithExternalHttpEndpoints()
+        .WithExternalHttpEndpoints()
     ;
 builder
     .AddProject<Projects.GV_Execute>("gv-execute")

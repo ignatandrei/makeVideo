@@ -1,8 +1,4 @@
-﻿using GV.General;
-using GV.Steps;
-using Microsoft.AspNetCore.Builder;
-using System.Diagnostics.CodeAnalysis;
-
+﻿
 namespace GV.API;
 
 public class VideoPlayAPI : IApi
@@ -10,8 +6,10 @@ public class VideoPlayAPI : IApi
     public async void Register(IEndpointRouteBuilder builder)
     {
         await Task.Yield();
-        var grp = builder.MapGroup("/api/VideoPlay");
-        
+        var grp = builder.MapGroup("/api/VideoPlay")
+            .WithOpenApi()
+            .WithTags("VideoPlayerManager")
+            ;
         grp.MapPost("/Register"
             ,async Task<Results<Ok<string>, BadRequest<string>>> (
                      VideoJson  context,
