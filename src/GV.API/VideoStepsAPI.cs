@@ -23,7 +23,7 @@ public class VideoStepsAPI : IApi
              => {
                  var exists = (service.GetRegistered(scriptName) != null);
                  if (!exists) return TypedResults.BadRequest($"cannot find {scriptName}");
-                 await hubContext.Clients.All.SendAsync(nameof(StepsHub.Start));
+                 await hubContext.Clients.All.SendAsync(nameof(StepsHub.Start),"Y"+scriptName);
                  PlayStep step = new("X"+scriptName, 0);
                  await hubContext.Clients.All.SendAsync("SendNextStep", step);
 
