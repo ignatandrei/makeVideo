@@ -24,7 +24,7 @@ public class VideoPlayerManagerAPI : IApi
 
         grp.MapGet("/All", ([FromServices] PlayOperations service) =>
         {
-            var data = service.GetAll();
+            var data = service.GetAllScriptNames();
             return TypedResults.Ok(data);
         });
         grp.MapGet("/Find/{id}", async Task<Results<Ok<string>, InternalServerError<string>>> (
@@ -35,7 +35,7 @@ public class VideoPlayerManagerAPI : IApi
                          ArgumentNullException.ThrowIfNullOrWhiteSpace(id);
                          var g = await service.GetRegistered(id);
                          if (g == null) return TypedResults.InternalServerError("Invalid id "+ id);
-                         return TypedResults.Ok(g.SerializeMe());
+                         return TypedResults.Ok(g.video.SerializeMe());
                      });
 
     }
