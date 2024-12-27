@@ -1,7 +1,7 @@
 ﻿
 namespace GV.API;
 
-public class VideoPlayAPI : IApi
+public class VideoPlayerManagerAPI : IApi
 {
     public async void Register(IEndpointRouteBuilder builder)
     {
