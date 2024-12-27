@@ -43,7 +43,7 @@ HubConnection _connection = new HubConnectionBuilder()
     .Build();
 
 var h = TypedSignalR.Client.HubConnectionExtensions.CreateHubProxy<IStepsHub>(_connection);
-await h.Start(vj.scriptName);
+//await h.Start(vj.scriptName);
 await h.Start(id);
 
 

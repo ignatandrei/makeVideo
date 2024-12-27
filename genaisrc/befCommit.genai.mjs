@@ -13,9 +13,9 @@ script({
 //let { stdout } = await host.exec("git", ["diff", "--cached"])
 // Check for staged changes and stage all changes if none are staged
 const diff = await git.diff({
-    staged: false,
+    staged: true,
     askStageOnEmpty: true,
-    llmify:true
+    llmify:false
 })
 
 if (!diff) cancel("no staged changes")
@@ -138,7 +138,7 @@ do {
         console.log("Committing changes with the following message:");
         console.log(message);
 
-        // console.log(await git.exec(["commit", "-m", message]))
+        console.log(await git.exec(["commit", "-m", message]))
         // if (await host.confirm("Push changes?", { default: true }))
         //     console.log(await git.exec("push"))
         // break
