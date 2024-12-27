@@ -6,6 +6,11 @@ script({
     system: ["system"],
 })
 
+//https://microsoft.github.io/genaiscript/guides/auto-git-commit-message/
+//https://github.com/microsoft/genaiscript/blob/main/packages/sample/genaisrc/samples/gcm.genai.mts
+
+
+//let { stdout } = await host.exec("git", ["diff", "--cached"])
 // Check for staged changes and stage all changes if none are staged
 const diff = await git.diff({
     staged: false,
@@ -44,7 +49,7 @@ do {
         - do NOT use markdown syntax
         - do NOT add quotes, single quote or code blocks
         - keep it short, 1 line only, maximum 50 characters
-        - use gitmoji
+        - do NOT use gitmoji
         - follow the conventional commit spec at https://www.conventionalcommits.org/en/v1.0.0/#specification
         - do NOT confuse delete lines starting with '-' and add lines starting with '+'
         `
