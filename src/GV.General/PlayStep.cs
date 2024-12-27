@@ -12,4 +12,6 @@ public interface IStepsHub
 {
     Task SendNextStep(PlayStep step);
     Task Start(string scriptName);
+
+    
 }

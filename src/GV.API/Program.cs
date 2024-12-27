@@ -11,7 +11,24 @@ builder.Services.AddTransient<PlayOperations>();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+                      policy =>
+                      {
+                          policy
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials()
+                          .SetIsOriginAllowed(p => true);
+                      });
+});
+
 var app = builder.Build();
+
+app.UseCors();
 
 app.MapDefaultEndpoints();
 

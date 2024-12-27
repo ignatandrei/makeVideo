@@ -1,4 +1,5 @@
 ﻿
+using GeneratorVideo;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.AspNetCore.SignalR.Protocol;
 
@@ -32,27 +33,41 @@ var app = builder.Build();
 var video=  app.Services.GetRequiredService<IVideoApi>();
 var vj=await VideoJson.DeserializeFromFile("test.json",StepParser.Parse);
 ArgumentNullException.ThrowIfNull(vj);
-var vj1 = await video.SendVideoJson(vj);
+var id = await video.SendVideoJson(vj);
 Console.WriteLine(vj.scriptName);
 var data= await video.GetVideo(vj.scriptName);
 
+VideoData vd = new(vj);
 HubConnection _connection = new HubConnectionBuilder()
-    .WithUrl(url+ "/stepsHub")
+    .WithUrl(url + "/stepsHub")
     .Build();
 
-_connection.On<PlayStep>(nameof(IStepsHub.SendNextStep), (step) =>
+var h = TypedSignalR.Client.HubConnectionExtensions.CreateHubProxy<IStepsHub>(_connection);
+await h.Start(vj.scriptName);
+await h.Start(id);
+
+
+_connection.On<PlayStep>(nameof(IStepsHub.SendNextStep),async (step) =>
 {
     Console.WriteLine("!!"+step);
+    if (id == step.scriptName)
+        await vd.ExecuteStep(0);
+    else
+        Console.WriteLine($"wrong script name {step.scriptName} for {id}");
+    await vd.ExecuteStep(0);
+
 });
-_connection.On<string>(nameof(IStepsHub.Start), (scriptName) =>
+_connection.On<string>(nameof(IStepsHub.Start), async (scriptName) =>
 {
     Console.WriteLine("!!" + scriptName);
+    if (id == scriptName)
+        await vd.ExecuteStep(0);
+    else
+        Console.WriteLine($"wrong script name {scriptName} for {id}");
 });
 
 await _connection.StartAsync();
 
-var h = TypedSignalR.Client.HubConnectionExtensions.CreateHubProxy<IStepsHub>(_connection);
-await h.Start(vj.scriptName);
 
 app.MapDefaultEndpoints();
 

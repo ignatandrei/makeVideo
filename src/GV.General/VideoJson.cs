@@ -21,7 +21,7 @@ public class VideoJson
         var json = await File.ReadAllTextAsync(fileName);
         return DeserializeFromString(json,parser);
     }
-    public static VideoJson DeserializeFromString(string json,Func<string , IFormatProvider? ,newStep> parser)
+    public static VideoJson? DeserializeFromString(string json,Func<string , IFormatProvider? ,newStep> parser)
     {
         
         var opt = new JsonSerializerOptions(JsonSerializerOptions.Default);

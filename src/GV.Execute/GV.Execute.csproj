@@ -27,6 +27,7 @@
 
 	<ItemGroup>
     <ProjectReference Include="..\Generator.ServiceDefaults\Generator.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\GeneratorVideo\GeneratorVideo.csproj" />
     <ProjectReference Include="..\GV.APIInteraction\GV.APIInteraction.csproj" />
     <ProjectReference Include="..\GV.Steps\GV.Steps.csproj" />
   </ItemGroup>

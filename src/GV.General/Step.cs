@@ -10,7 +10,7 @@ public class Step
     public string SpeakTest { get; set; }=string.Empty;
 }
 //[System.Runtime.Versioning.SupportedOSPlatform("windows")]
-public abstract record newStep(string typeScript, string arg):IParsable<newStep>, IDisposable
+public abstract record newStep(string typeScript, string arg)//:IParsable<newStep>, IDisposable
 {
     public const string esc = "\u001B";
     public int Number { get; set; }
@@ -43,19 +43,19 @@ public abstract record newStep(string typeScript, string arg):IParsable<newStep>
         //}
 
     }
-    public static newStep Parse(string s, IFormatProvider? provider)
-    {
-        if(TryParse(s,provider, out var value))
-            return value;
-        throw new ArgumentException("cannot parse to step" + s);
-    }
+    //public static newStep Parse(string s, IFormatProvider? provider)
+    //{
+    //    if(TryParse(s,provider, out var value))
+    //        return value;
+    //    throw new ArgumentException("cannot parse to step" + s);
+    //}
 
     
 
     public abstract void Dispose();
 
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out newStep result)
-    {
-        throw new NotImplementedException();
-    }
+    //public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out newStep result)
+    //{
+    //    throw new NotImplementedException();
+    //}
 }

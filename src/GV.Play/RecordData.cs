@@ -10,6 +10,7 @@ public class PlayOperations
     private static ConcurrentDictionary<Guid, int> StepsVideo = [];
     public async Task<Guid?> Add(VideoJson vj)
     {
+        await Task.Yield();
         if (vj == null) return null;
         var id = Guid.NewGuid();
         data[id] = vj;
@@ -18,19 +19,20 @@ public class PlayOperations
     }
     public async Task<int> IncreaseStep(string idVideo)
     {
-        var step = await Step(idVideo);
+        var step = await Step(idVideo)??-1;//no step found, means next step is 0
+        step++;
         var vj = await GetRegistered(idVideo);
         if (vj == null) throw new ArgumentException(idVideo);
-        StepsVideo[vj.guid]=step+1;
+        StepsVideo[vj.guid]=step;
         return step;
 
     }
-    public async Task<int> Step(string idVideo)
+    public async Task<int?> Step(string idVideo)
     {
         var vj= await GetRegistered(idVideo);
         if(vj == null) throw new ArgumentException(idVideo);
-        if(!StepsVideo.ContainsKey(vj.guid))            
-            StepsVideo.AddOrUpdate(vj.guid, -1, (g, lastValue) => lastValue);
+        if (!StepsVideo.ContainsKey(vj.guid))
+            return null;
         
         return StepsVideo[vj.guid];
 

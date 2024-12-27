@@ -1,15 +1,22 @@
 ﻿
-namespace GeneratorVideo;
-[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+using GV.General;
+using System.Windows;
 
-internal class VideoData:IDisposable
+namespace GeneratorVideo;
+//[System.Runtime.Versioning.SupportedOSPlatform("windows")]
+
+public class VideoData:IDisposable
 {
     VideoJson? vdata = null;
-    private readonly string fileName;
+    private readonly string fileName="";
 
     public VideoData(string fileName)
     {
         this.fileName = fileName;
+    }
+    public VideoData(VideoJson videoJson)
+    {
+        this.vdata = videoJson;
     }
     public async Task<bool> Analyze()
     {
@@ -28,34 +35,44 @@ internal class VideoData:IDisposable
 
     }
     public int NrSteps() => vdata?.steps.Length ?? 0;
+    public async Task ExecuteStep(int iStep)
+    {
+        ArgumentNullException.ThrowIfNull(vdata);
+        var step = vdata.realSteps[iStep];
+        var now = DateTime.Now;                                                                        // 
+                                                                                                       //await step.ExecuteAndSpeak();
+        await step.Execute();
+        var DurationSeconds = DateTime.Now.Subtract(now).TotalSeconds;
+        step.DurationSeconds = (long)DurationSeconds;
+        Console.WriteLine("Duration:" + step.DurationSeconds);
+
+    }
     public async Task<bool> ExecuteToDetermineDuration()
     {
         if (vdata == null) return false;
-        var execSteps=vdata.realSteps.OrderBy(it=>it.Number).ToArray();
-        var nr = execSteps.Length;
+        vdata.realSteps = vdata.realSteps.OrderBy(it=>it.Number).ToArray();
+        var nr = vdata.realSteps.Length;
         InputSimulator inputSimulator = new InputSimulator();
         long Duration = 0;
         for (var iStep=0;iStep<nr;iStep++) {
             try
             {
-                var step = execSteps[iStep];
+                var step = vdata.realSteps[iStep];
                 Console.WriteLine($"executing {step.GetType().Name} {step.Number} /{nr}");// + "=>" + step.value);
-                var now = DateTime.Now;                                                                        // 
-                //await step.ExecuteAndSpeak();
-                await step.Execute();
-                var DurationSeconds = DateTime.Now.Subtract(now).TotalSeconds;
-                step.DurationSeconds= (long)DurationSeconds;
-                Console.WriteLine("Duration:" + step.DurationSeconds);
+                await ExecuteStep(iStep);
                 Duration += step.DurationSeconds;
+
+                //Console.ReadLine();
                 if (iStep == nr - 1)
                 {
                     Console.WriteLine("no next step");
                 }
                 else
                 {
-                    Console.WriteLine("========>next step " + execSteps[iStep + 1].Description);
+                    Console.WriteLine("========>next step " + vdata.realSteps[iStep + 1].Description);
                 }
-                //Console.ReadLine();
+
+
                 await Task.Delay(2000);
 
             }
