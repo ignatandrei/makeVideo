@@ -25,8 +25,14 @@ console.log(diff)
 const chunks = await tokenizers.chunk(diff, { chunkSize: 10000 })
 if (chunks.length > 1)
     console.log(`staged changes chunked into ${chunks.length} parts`)
-const commonMessage =`        <type> :  <description>
+const commonMessage =`        
+        <date>
+        <type>(<file>) :  <description>
 
+        - ignore ALL files that are ending in mjs
+        - ignore ALL files that contains genai
+        - <file> should be the file path relative to the repository root
+        - <date> should be the today date in the format YYYY-MM-DD
         - <type> can be one of the following: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
         - <description> is a short, imperative present-tense description of the change        
         - do NOT use markdown syntax
