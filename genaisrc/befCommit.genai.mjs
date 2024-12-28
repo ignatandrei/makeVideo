@@ -25,14 +25,17 @@ console.log(diff)
 const chunks = await tokenizers.chunk(diff, { chunkSize: 10000 })
 if (chunks.length > 1)
     console.log(`staged changes chunked into ${chunks.length} parts`)
+//- <date> should be the today date in the format YYYY-MM-DD
+const dateAll = new Date().toISOString().split("T")
+const date = dateAll[0]
+const time = dateAll[1]
 const commonMessage =`        
-        <date>
+        
         <type>(<file>) :  <description>
 
         - ignore ALL files that are ending in mjs
         - ignore ALL files that contains genai
         - <file> should be the file path relative to the repository root
-        - <date> should be the today date in the format YYYY-MM-DD
         - <type> can be one of the following: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
         - <description> is a short, imperative present-tense description of the change        
         - do NOT use markdown syntax
@@ -141,7 +144,7 @@ do {
         console.log("Committing changes with the following message:");
         console.log(message);
         
-        console.log(await git.exec(["commit","-m","this is a date for new steps", "-m", message]))
+        console.log(await git.exec(["commit","-m",`generated on ${date} : ${time} `, "-m", message]))
         // if (await host.confirm("Push changes?", { default: true }))
         //     console.log(await git.exec("push"))
         // break
