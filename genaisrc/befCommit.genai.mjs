@@ -1,8 +1,12 @@
 script({
     title: "git commit message",
     description: "Generate a commit message for all staged changes",
-    //xmodel: "openai:gpt-4o",
-    model:"ollama:phi3.5",
+    //model: "openai:gpt-4o",
+    //model:"ollama:phi3.5",
+    //model:"ollama:llama3.3",
+    model:"ollama:gemma2:27b",
+    //model:"mistral",
+    //model: "transformers:onnx-community/Qwen2.5-Coder-0.5B-Instruct:q4",
     system: ["system"],
 })
 
@@ -15,7 +19,7 @@ script({
 const diff = await git.diff({
     staged: true,
     askStageOnEmpty: true,
-    llmify:false
+    llmify:true
 })
 
 if (!diff) cancel("no staged changes")
@@ -31,10 +35,10 @@ const date = dateAll[0]
 const time = dateAll[1]
 const commonMessage =`        
         
+For each file that you find in the diff, generate a commit message in the following format:
+
         <type>(<file>) :  <description>
 
-        - ignore ALL files that are ending in mjs
-        - ignore ALL files that contains genai
         - <file> should be the file path relative to the repository root
         - <type> can be one of the following: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
         - <description> is a short, imperative present-tense description of the change        
@@ -45,11 +49,11 @@ const commonMessage =`
         - follow the conventional commit spec at https://www.conventionalcommits.org/en/v1.0.0/#specification
         - do NOT confuse delete lines starting with '-' and add lines starting with '+'
         - do NOT respond anything else than the commit message
-        - keep it short, 1 line only, maximum 50 characters
         
  `
 let choice
 let message
+let messageSummary
 do {
     // Generate a conventional commit message based on the staged changes diff
     message = ""
@@ -62,6 +66,7 @@ do {
                     detectPromptInjection: "available",
                 })
                 _.$`Generate a git conventional commit message that summarizes the changes in GIT_DIFF.
+
                     ${commonMessage}
         `
             },
@@ -81,11 +86,19 @@ do {
     }
 
     // since we've concatenated the chunks, let's compress it back into a single sentence again
-    if (chunks.length > 1) {
+    //if (chunks.length > 1) 
+    {
         const res =
-            await prompt`Generate a git conventional commit message that summarizes the COMMIT_MESSAGES.
-                ${commonMessage}
-
+            await prompt`Generate a git conventional commit message that summarizes the COMMIT_MESSAGES. 
+       
+        Instructions:
+        - generate a short, 1 line only,max 30 characters imperative present-tense description of the change        
+        - do NOT use markdown syntax
+        - do NOT add quotes or code blocks
+        - can use gitmoji        
+        - do NOT put file names or paths in the description
+        - the result should be different from the messages 
+        
         COMMIT_MESSAGES:
         ${message}
         `.options({
@@ -99,7 +112,7 @@ do {
                 ],
             })
         if (res.error) throw res.error
-        message = res.text
+        messageSummary = res.text
     }
 
     message = message?.trim()
@@ -109,9 +122,10 @@ do {
         )
         break
     }
-
+    console.log("Summary : "+ messageSummary);
+    console.log("Message : "+ message);
     // Prompt user to accept, edit, or regenerate the commit message
-    choice = await host.select(message, [
+    choice = await host.select("Choose", [
         {
             value: "commit",
             description: "accept message and commit",
@@ -143,8 +157,8 @@ do {
     if (choice === "commit" && message) {
         console.log("Committing changes with the following message:");
         console.log(message);
-        
-        console.log(await git.exec(["commit","-m",`generated on ${date} : ${time} `, "-m", message]))
+        const messageSummary1=`generated on ${date} : ${time} `;
+        console.log(await git.exec(["commit","-m",messageSummary, "-m", message]))
         // if (await host.confirm("Push changes?", { default: true }))
         //     console.log(await git.exec("push"))
         // break
