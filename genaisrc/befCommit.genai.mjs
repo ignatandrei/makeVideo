@@ -1,12 +1,20 @@
+import fs from 'fs';
+//npx genaiscript run befCommit     --model "ollama:phi3.5"
+//model: "openai:gpt-4o",
+//model:"ollama:phi3.5",
+//model:"ollama:llama3.3",
+//model:"ollama:gemma2:27b",
+//model:"mistral",
+//model: "transformers:onnx-community/Qwen2.5-Coder-0.5B-Instruct:q4",
+// Get the model name from CLI arguments or use a default value
+const args = process.argv.slice(2);
+const modelArgIndex = args.indexOf("--model");
+const modelName = modelArgIndex !== -1 ? args[modelArgIndex + 1] : "ollama:gemma2:27b";
+console.log("Model name: " + modelName);
 script({
     title: "git commit message",
     description: "Generate a commit message for all staged changes",
-    //model: "openai:gpt-4o",
-    //model:"ollama:phi3.5",
-    //model:"ollama:llama3.3",
-    model:"ollama:gemma2:27b",
-    //model:"mistral",
-    //model: "transformers:onnx-community/Qwen2.5-Coder-0.5B-Instruct:q4",
+    model: modelName,
     system: ["system"],
 })
 
@@ -47,7 +55,7 @@ For each file that you find in the diff, generate a commit message in the follow
         - do NOT use gitmoji        
         - keep it short, 1 line only, maximum 50 characters
         - follow the conventional commit spec at https://www.conventionalcommits.org/en/v1.0.0/#specification
-        - do NOT confuse delete lines starting with '-' and add lines starting with '+'
+        - do NOT confuse delete lines starting with '-' and add lines starting with '+'        
         - do NOT respond anything else than the commit message
         
  `
@@ -124,6 +132,13 @@ do {
     }
     console.log("Summary : "+ messageSummary);
     console.log("Message : "+ message);
+    var nameFile = modelName.replace(/:/g, "_");
+    nameFile=nameFile.replace(/\//g, "_");
+    
+    // Save message and message summary to file
+    fs.writeFileSync(nameFile+'.txt', `Summary: ${messageSummary}\nMessage: ${message}`);
+
+    cancel("User cancelled the commit");
     // Prompt user to accept, edit, or regenerate the commit message
     choice = await host.select("Choose", [
         {
