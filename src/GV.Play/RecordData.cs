@@ -46,13 +46,12 @@ public class PlayOperations
     {
         await Task.Yield();
         ArgumentNullException.ThrowIfNullOrWhiteSpace(id);
-        ScriptID? ret = null;
         if (!Guid.TryParse(id, out var guid))
         {
             var v= data.Where(x => x.Value.scriptName?.ToLower() == id.ToLower()).ToArray();
 
             if(v.Length == 0) return null;
-            ret = new ScriptID(v[0].Key, v[0].Value);
+            return new ScriptID(v[0].Key, v[0].Value);
 
         }
         

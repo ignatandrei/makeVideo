@@ -9,7 +9,7 @@ public class StepParser
 
         throw new ArgumentException("cannot parse to step " + s);
     }
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out newStep result)
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? _, [MaybeNullWhen(false)] out newStep result)
     {
         ArgumentNullException.ThrowIfNull(s);
         result = default;

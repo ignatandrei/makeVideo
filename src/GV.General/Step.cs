@@ -10,7 +10,7 @@ public class Step
     public string SpeakTest { get; set; }=string.Empty;
 }
 //[System.Runtime.Versioning.SupportedOSPlatform("windows")]
-public abstract record newStep(string typeScript, string arg)//:IParsable<newStep>, IDisposable
+public abstract record newStep(string typeScript, string arg): IDisposable//,IParsable<newStep>, 
 {
     public const string esc = "\u001B";
     public int Number { get; set; }

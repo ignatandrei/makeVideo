@@ -7,6 +7,8 @@ import fs from 'fs';
 //model:"mistral",
 //model: "transformers:onnx-community/Qwen2.5-Coder-0.5B-Instruct:q4",
 // Get the model name from CLI arguments or use a default value
+console.log("test");    
+
 const args = process.argv.slice(2);
 const modelArgIndex = args.indexOf("--model");
 const modelName = modelArgIndex !== -1 ? args[modelArgIndex + 1] : "ollama:gemma2:27b";
@@ -73,13 +75,15 @@ do {
                     language: "diff",
                     detectPromptInjection: "available",
                 })
-                _.$`Generate a git conventional commit message that summarizes the changes in GIT_DIFF.
+                _.$`
+                Generate a git conventional commit message that summarizes the changes in GIT_DIFF.
 
+                GIT_DIFF:
                     ${commonMessage}
         `
             },
             {
-                model: "large", // Specifies the LLM model to use for message generation
+                model: modelName,//"large", // Specifies the LLM model to use for message generation
                 label: "generate commit message", // Label for the prompt task
                 system: [
                     "system.assistant",
@@ -110,7 +114,7 @@ do {
         COMMIT_MESSAGES:
         ${message}
         `.options({
-                model: "large",
+                model: modelName,//"large",
                 label: "summarize chunk commit messages",
                 system: [
                     "system.assistant",
@@ -136,7 +140,7 @@ do {
     nameFile=nameFile.replace(/\//g, "_");
     
     // Save message and message summary to file
-    fs.writeFileSync(nameFile+'.txt', `Summary: ${messageSummary}\nMessage: ${message}`);
+    fs.writeFileSync(nameFile+'.txt', `Summary: ${messageSummary}\n\n\nMessage: ${message}`);
 
     cancel("User cancelled the commit");
     // Prompt user to accept, edit, or regenerate the commit message
